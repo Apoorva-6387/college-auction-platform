@@ -1,14 +1,13 @@
-
 const mongoose = require("mongoose");
 
-const auctionSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    startingBid: { type: Number, required: true },
-    highestBid: { type: Number, default: 0 },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-}, { timestamps: true });
+const AuctionSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+  startingPrice: { type: Number, required: true },
+  highestBid: { type: Number, default: 0 },
+  highestBidder: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  status: { type: String, enum: ["ongoing", "completed"], default: "ongoing" },
+  startTime: { type: Date, required: true },
+  endTime: { type: Date, required: true },
+});
 
-const Auction = mongoose.model("Auction", auctionSchema);
-
-module.exports = Auction;
+module.exports = mongoose.model("Auction", AuctionSchema);
